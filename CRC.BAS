@@ -1,0 +1,2 @@
+SUB CRC(D$, CRC.Hi%, CRC.Low%)
+END SUB

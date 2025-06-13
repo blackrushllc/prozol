@@ -1,0 +1,44 @@
+FUNCTION COMChars%
+	IF Comline THEN COMChars%=LOC(5) ELSE COMChars%=0
+END FUNCTION
+
+FUNCTION COMCHAR$
+	IF Comchars% THEN COMCHAR$=INPUT$(Comchars%, #5):CheckCarrier
+END FUNCTION
+
+FUNCTION COMINKEY$
+	IF Comline THEN IF COMChars% THEN COMINKEY$=INPUT$(1,#5):CheckCarrier
+END FUNCTION
+
+SUB COMPRINT (X$)
+	IF Comline THEN PRINT #5, X$;:CheckCarrier
+END SUB
+
+SUB COMOPEN (PRM$)
+	OPEN PRM$ FOR RANDOM AS #5
+	COMLINE=-1
+END SUB
+
+SUB COMCLOSE
+	CLOSE #5
+        COMLINE=0
+END SUB
+
+SUB CheckCarrier
+	IF Carrier% THEN
+		MSR?=INP(Padd%+6)
+                X%=PROZOCSRLIN:Y%=PROZOPOS
+                LOCATE 1,1:COLOR 0,7
+		IF (MSR? AND &B00000001) THEN PRINT "D-CTS ";  ELSE PRINT "d-cts ";
+		IF (MSR? AND &B00000010) THEN PRINT "D-DSR ";  ELSE PRINT "d-dsr ";
+		IF (MSR? AND &B00000100) THEN PRINT "D-RI ";   ELSE PRINT "d-ri ";
+		IF (MSR? AND &B00001000) THEN PRINT "D-RLSD "; ELSE PRINT "d-rlsd ";
+		IF (MSR? AND &B00010000) THEN PRINT "CTS ";    ELSE PRINT "cts ";
+		IF (MSR? AND &B00100000) THEN PRINT "DSR ";    ELSE PRINT "dsr ";
+		IF (MSR? AND &B01000000) THEN PRINT "RI ";     ELSE PRINT "dsr ";
+		IF (MSR? AND &B10000000) THEN PRINT "RLSD ";   ELSE PRINT "rlsd ";
+                LOCATE X%,Y%
+        	' test for no carrier
+        	' set error 105
+	END IF
+END SUB

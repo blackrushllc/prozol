@@ -1,0 +1,7 @@
+SUB REPRINT (A$)
+CALL DM(CHR$(27) + "[s")
+DM A$
+CALL DM(CHR$(27) + "[u")
+
+END SUB
+
