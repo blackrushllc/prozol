@@ -1,0 +1,3 @@
+*.bas linguist-language=PowerBASIC
+*.cmd linguist-language=PowerBASIC
+*.inc linguist-language=PowerBASIC
